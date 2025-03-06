@@ -10,10 +10,12 @@ app.use(cors());
 // Import routes (Ensure these files exist and are correctly exporting `router`)
 const authRoutes = require('./routes/authRoutes');
 const diplomaRoutes = require('./routes/diplomaRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Use the routers correctly
 app.use('/api/auth', authRoutes);
 app.use('/api/diplomas', diplomaRoutes);
+app.use('/api/users', userRoutes);
 // Test database connection route
 app.get('/api/test-db', async (req, res) => {
   try {
