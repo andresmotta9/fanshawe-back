@@ -11,11 +11,13 @@ app.use(cors());
 const authRoutes = require('./routes/authRoutes');
 const diplomaRoutes = require('./routes/diplomaRoutes');
 const userRoutes = require('./routes/userRoutes');
+const coursesRoutes = require('./routes/courses');
 
 // Use the routers correctly
 app.use('/api/auth', authRoutes);
 app.use('/api/diplomas', diplomaRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/courses', coursesRoutes);
 // Test database connection route
 app.get('/api/test-db', async (req, res) => {
   try {
