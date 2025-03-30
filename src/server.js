@@ -12,25 +12,15 @@ const authRoutes = require('./routes/authRoutes');
 const diplomaRoutes = require('./routes/diplomaRoutes');
 const userRoutes = require('./routes/userRoutes');
 const coursesRoutes = require('./routes/courses');
+const questionsRoutes = require('./routes/questions');
 
 // Use the routers correctly
 app.use('/api/auth', authRoutes);
 app.use('/api/diplomas', diplomaRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/courses', coursesRoutes);
+app.use('/api/fields', questionsRoutes);
 // Test database connection route
-app.get('/api/test-db', async (req, res) => {
-  try {
-    const result = await db.query('SELECT NOW() as current_time;');
-    res.json({
-      message: 'Database connected!',
-      time: result.rows[0].current_time,
-    });
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ message: 'Failed to connect to the database' });
-  }
-});
 
 // Start the server
 app.listen(PORT, () =>
