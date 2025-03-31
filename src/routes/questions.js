@@ -4,19 +4,29 @@ const pool = require('../config/db');
 
 router.get('/questions', async (req, res) => {
   try {
-    const result = await pool.query(`SELECT fq.id AS question_id, fq.question, 
-                 json_agg(json_build_object('option_id', fqo.id, 'text', fqo.option_text, 'field_id', fqo.field_id)) AS options
-          FROM field_questions fq
-          JOIN field_question_options fqo ON fq.id = fqo.question_id
-          GROUP BY fq.id
-          ORDER BY fq.id;`);
-    res.json(result.rows);
+    const result = await pool.query(`
+      SELECT 
+        fq.id AS "questionId", 
+        fq.question, 
+        json_agg(
+          json_build_object(
+            'optionId', fqo.id,
+            'text', fqo.option_text,
+            'fieldId', fqo.field_id
+          )
+        ) AS options
+      FROM field_questions fq
+      JOIN field_question_options fqo ON fq.id = fqo.question_id
+      GROUP BY fq.id
+      ORDER BY fq.id;
+    `);
+
+    res.status(200).json(result.rows);
   } catch (error) {
     console.error('Error fetching questions:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 router.post('/determine', async (req, res) => {
   try {
     const { answers } = req.body;
